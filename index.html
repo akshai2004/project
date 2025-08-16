@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Carbon Aerogel Based Supercapacitor — Final Year Project</title>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
+  <style>
+    :root{--accent:#004080;--muted:#6b7280;--card:#ffffff;--bg:linear-gradient(180deg,#f9fafb 0%, #edf2f7 100%)}
+    html,body{height:100%;margin:0;font-family:'Segoe UI',Roboto,Arial,sans-serif}
+    body{background:var(--bg);color:#0b2545}
+    .container{max-width:1150px;margin:36px auto;padding:24px}
+    header{text-align:center;margin-bottom:20px}
+    .title{font-size:36px;font-weight:700;color:var(--accent);margin:0;text-transform:uppercase;letter-spacing:1px}
+    .sub{color:#374151;margin:8px 0 0;font-size:18px;font-weight:500}
+    .section{margin-top:20px}
+    .card{background:var(--card);border-radius:14px;box-shadow:0 10px 28px rgba(0,0,0,0.08);padding:22px;margin-bottom:18px}
+    .viewer-wrap{height:580px;border-radius:12px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at top,#0d1b2a,#1b263b);margin-top:20px}
+    canvas{width:100%;height:100%;display:block}
+    h3{margin:14px 0;font-size:21px;color:#072033;border-bottom:2px solid #e2e8f0;padding-bottom:4px}
+    p,ul{color:#334155;line-height:1.65;font-size:16px}
+    ul{margin-top:8px;padding-left:20px}
+    footer{margin-top:32px;color:var(--muted);font-size:13px;text-align:center}
+    .label{position:absolute;color:#fff;font-weight:600;text-align:center;width:120px;transform:translateX(-50%);}
+    .viewer-container{position:relative;}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1 class="title">Development of Supercapacitor Using Carbon Aerogel</h1>
+      <p class="sub">Final Year B.Tech Project (S7–S8) — Dept. of Electrical & Electronics Engineering, RIT Kottayam</p>
+    </header>
+
+    <div class="section">
+      <div class="card">
+        <h3>Abstract</h3>
+        <p>A supercapacitor is developed using carbon aerogel synthesized from lignin. Carbon aerogels offer high surface area, low weight, and good conductivity. The project involves aerogel synthesis, characterization, and device fabrication. The aim is to create a sustainable, high-performance energy storage device suitable for applications like EVs, portable electronics, grid storage, and IoT systems.</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="card">
+        <h3>Motive</h3>
+        <ul>
+          <li>Conventional supercapacitors face limitations in energy density and cost.</li>
+          <li>Existing electrode materials rely on non-renewable and expensive resources.</li>
+          <li>Carbon aerogels offer eco-friendly, sustainable, and scalable solutions.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="card">
+        <h3>Objectives</h3>
+        <ul>
+          <li>Develop a cost-effective supercapacitor using carbon aerogel.</li>
+          <li>Improve energy density and conductivity with optimized porous structures.</li>
+          <li>Ensure long cycle life and mechanical stability.</li>
+          <li>Compare with conventional supercapacitors for performance validation.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="card">
+        <h3>Methodology</h3>
+        <p><strong>Preparation of Carbon Aerogel from Lignin (PVA–Lignin method):</strong></p>
+        <ul>
+          <li>Solution Preparation — 5% PVA solution blended with lignin (3:1 ratio).</li>
+          <li>Deep Freezing — solidification at –20 °C for 12–48 hours.</li>
+          <li>Freeze Drying — sublimation of water under vacuum.</li>
+          <li>Vacuum Drying — removal of residual moisture.</li>
+          <li>Carbonization — heating up to 1000 °C to obtain carbon aerogel.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="card">
+        <h3>3D Projection</h3>
+        <div class="viewer-container">
+          <div class="viewer-wrap">
+            <canvas id="viewer"></canvas>
+          </div>
+          <div class="label" style="left:25%; top:88%;">Lignin</div>
+          <div class="label" style="left:50%; top:88%;">Carbon Aerogel</div>
+          <div class="label" style="left:75%; top:88%;">Supercapacitor</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="card">
+        <h3>Team</h3>
+        <p><strong>Karthikeyan J S (KTE22EE046)<br>
+        Jishnu M (KTE22EE044)<br>
+        Akshay Sajeev (KTE22EE009)<br>
+        Rohit Jayakrishna (KTE22EE057)</strong></p>
+        <p>Guides: <strong>Dr. Radhika R</strong> & <strong>Prof. Veena L</strong>, Dept. of EEE, RIT Kottayam</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="card">
+        <h3>References</h3>
+        <p>[1] Thomas, B.; Geng, S.; Sain, M.; Oksman, K. (2021). Hetero-Porous, High-Surface Area Green Carbon Aerogels for Next-Generation Energy Storage. <i>Nanomaterials</i>.</p>
+        <p>[2] Lee, J.-H.; Lee, S.-Y.; Park, S.-J. (2023). Highly Porous Carbon Aerogels for High-Performance Supercapacitor Electrodes. <i>Nanomaterials</i>.</p>
+        <p>[3] Wang, X. et al. (2025). Deoxygenated lignin carbon aerogel with enhanced electrochemical performance in organic systems. <i>Int. J. Biol. Macromolecules</i>.</p>
+        <p>[4] Wu, C.-W. et al. (2022). Review on lignin-based carbon aerogels. <i>RSC Advances</i>.</p>
+        <p>[5] Dong, X. et al. (2025). Application of lignin-derived carbon materials in adsorption and separation. <i>Separations</i>.</p>
+      </div>
+    </div>
+
+    <footer>
+      Prepared for Final-Year Project (S7–S8) • Department of Electrical and Electronics Engineering • RIT Kottayam
+    </footer>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('viewer');
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(45, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:true});
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+    scene.background = new THREE.Color(0xf9fafb);
+
+    // Lighting
+    const ambient = new THREE.AmbientLight(0xffffff, 0.6);
+    const keyLight = new THREE.DirectionalLight(0xffffff, 0.8);
+    keyLight.position.set(6,8,6);
+    const rimLight = new THREE.PointLight(0xffffff, 0.5);
+    rimLight.position.set(-6,4,-6);
+    scene.add(ambient, keyLight, rimLight);
+
+    // Lignin
+    const ligninGeo = new THREE.IcosahedronGeometry(1.3, 2);
+    const ligninMat = new THREE.MeshPhysicalMaterial({color:0x8b5a2b, roughness:0.5, metalness:0.2, clearcoat:0.4});
+    const lignin = new THREE.Mesh(ligninGeo, ligninMat);
+    lignin.position.set(-4.6,0,0);
+    scene.add(lignin);
+
+    // Aerogel
+    const aerogelGeo = new THREE.OctahedronGeometry(1.5, 2);
+    const aerogelMat = new THREE.MeshPhysicalMaterial({color:0x222222, roughness:0.4, metalness:0.3, transmission:0.1, clearcoat:0.3});
+    const aerogel = new THREE.Mesh(aerogelGeo, aerogelMat);
+    aerogel.position.set(0,0,0);
+    scene.add(aerogel);
+
+    // Supercapacitor
+    const bodyGeo = new THREE.CylinderGeometry(1.3,1.3,3.6,64,1,true);
+    const bodyMat = new THREE.MeshPhysicalMaterial({color:0x0b63a6, roughness:0.3, metalness:0.4, clearcoat:0.5});
+    const body = new THREE.Mesh(bodyGeo, bodyMat);
+    body.position.set(4.6,0,0);
+    scene.add(body);
+
+    const capTop = new THREE.CircleGeometry(1.3,64);
+    const capMat = new THREE.MeshStandardMaterial({color:0x093d77, metalness:0.6, roughness:0.2});
+    const top = new THREE.Mesh(capTop, capMat);
+    top.rotation.x = -Math.PI/2;
+    top.position.set(4.6,1.8,0);
+    scene.add(top);
+
+    const termGeo = new THREE.CylinderGeometry(0.2,0.2,0.4,32);
+    const termMat = new THREE.MeshStandardMaterial({color:0xffd700, metalness:0.8, roughness:0.2});
+    const term = new THREE.Mesh(termGeo, termMat);
+    term.position.set(4.6,2.0,0);
+    scene.add(term);
+
+    camera.position.set(0,2,12);
+
+    function onResize(){
+      renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+      camera.aspect = canvas.clientWidth / canvas.clientHeight;
+      camera.updateProjectionMatrix();
+    }
+    window.addEventListener('resize', onResize);
+
+    // Drag interaction
+    let isDown=false, lastX=0, lastY=0;
+    canvas.addEventListener('pointerdown', (e)=>{isDown=true; lastX=e.clientX; lastY=e.clientY; canvas.setPointerCapture(e.pointerId)});
+    canvas.addEventListener('pointerup', (e)=>{isDown=false; canvas.releasePointerCapture(e.pointerId)});
+    canvas.addEventListener('pointermove',(e)=>{
+      if(!isDown) return;
+      const dx=(e.clientX-lastX)/200;
+      const dy=(e.clientY-lastY)/200;
+      scene.rotation.y+=dx;
+      scene.rotation.x+=dy;
+      lastX=e.clientX; lastY=e.clientY;
+    });
+
+  </script>
+</body>
+</html>
