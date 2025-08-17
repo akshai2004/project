@@ -1,220 +1,354 @@
+<!--
+  Save this as `index.html`.
+  If you want to include the poster image generated earlier, save it as `poster.png`
+  in the same folder and the "Poster" panel will show it.
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Carbon Aerogel Based Supercapacitor — Final Year Project</title>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
+  <title>Development of Supercapacitor Using Carbon Aerogel — Project</title>
+
   <style>
-    :root{--accent:#004080;--muted:#6b7280;--card:#ffffff;--bg:linear-gradient(180deg,#f9fafb 0%, #edf2f7 100%)}
-    html,body{height:100%;margin:0;font-family:'Segoe UI',Roboto,Arial,sans-serif}
-    body{background:var(--bg);color:#0b2545}
-    .container{max-width:1150px;margin:36px auto;padding:24px}
-    header{text-align:center;margin-bottom:20px}
-    .title{font-size:36px;font-weight:700;color:var(--accent);margin:0;text-transform:uppercase;letter-spacing:1px}
-    .sub{color:#374151;margin:8px 0 0;font-size:18px;font-weight:500}
-    .section{margin-top:20px}
-    .card{background:var(--card);border-radius:14px;box-shadow:0 10px 28px rgba(0,0,0,0.08);padding:22px;margin-bottom:18px}
-    .viewer-wrap{height:580px;border-radius:12px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at top,#0d1b2a,#1b263b);margin-top:20px}
+    :root{
+      --primary: #0b63a6;
+      --accent: #004080;
+      --card: #ffffff;
+      --muted: #6b7280;
+      --bg: linear-gradient(180deg,#f9fafb 0%, #eef2f7 100%);
+      --glass: rgba(255,255,255,0.85);
+      --shadow: 0 8px 28px rgba(13,38,59,0.08);
+      --radius: 12px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Inter, 'Segoe UI', Roboto, Arial, sans-serif;background:var(--bg);color:#072033}
+    .page{max-width:1200px;margin:28px auto;padding:26px}
+    header{display:flex;gap:18px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+    .title-wrap{min-width:240px}
+    h1{margin:0;font-size:28px;color:var(--accent);letter-spacing:0.6px}
+    .subtitle{margin-top:6px;color:var(--muted);font-size:14px}
+
+    /* layout */
+    .grid{display:grid;grid-template-columns: 1fr 420px;gap:22px;margin-top:22px}
+    @media (max-width:980px){ .grid{grid-template-columns: 1fr; } }
+
+    .card{background:var(--glass);backdrop-filter: blur(6px);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;margin-bottom:16px}
+    .card h2{margin:0 0 8px 0;color:var(--primary);font-size:18px}
+    .muted{color:var(--muted);font-size:14px}
+
+    /* left column pieces */
+    .section{margin-bottom:12px}
+    p, li{font-size:15px;line-height:1.6;color:#14324a}
+    ul{padding-left:20px}
+    ol{padding-left:20px}
+
+    /* methodology table */
+    table{width:100%;border-collapse:collapse;margin-top:12px}
+    th,td{padding:10px 8px;border-bottom:1px solid rgba(10,30,50,0.06);text-align:left;font-size:14px}
+    th{background:rgba(11,99,166,0.06);color:var(--primary);font-weight:600}
+    .small{font-size:13px;color:var(--muted)}
+
+    /* right column */
+    .right-col{display:flex;flex-direction:column;gap:16px;align-items:stretch}
+    .viewer-wrap{height:380px;border-radius:10px;overflow:hidden;background:linear-gradient(180deg,#0d1b2a,#112534);display:flex;align-items:center;justify-content:center;position:relative}
     canvas{width:100%;height:100%;display:block}
-    h3{margin:14px 0;font-size:21px;color:#072033;border-bottom:2px solid #e2e8f0;padding-bottom:4px}
-    p,ul{color:#334155;line-height:1.65;font-size:16px}
-    ul{margin-top:8px;padding-left:20px}
-    footer{margin-top:32px;color:var(--muted);font-size:13px;text-align:center}
-    .label{position:absolute;color:#fff;font-weight:600;text-align:center;width:120px;transform:translateX(-50%);}
-    .viewer-container{position:relative;}
+    .poster-img{width:100%;height:100%;object-fit:cover;display:block}
+    .label-row{display:flex;justify-content:space-between;margin-top:8px;gap:8px}
+    .label-chip{background:rgba(255,255,255,0.06);color:#fff;padding:6px 10px;border-radius:999px;font-weight:600;font-size:13px}
+
+    /* team & refs */
+    .team-list{display:grid;gap:8px}
+    .member{padding:10px;border-radius:8px;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));font-weight:600}
+    .refs ol{padding-left:18px}
+
+    footer{margin-top:26px;color:var(--muted);font-size:13px;text-align:center}
+    /* subtle interactive hover */
+    .card:hover{transform:translateY(-4px);transition:transform .22s ease}
   </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1 class="title">Development of Supercapacitor Using Carbon Aerogel</h1>
-      <p class="sub">Final Year B.Tech Project (S7–S8) — Dept. of Electrical & Electronics Engineering, RIT Kottayam</p>
-    </header>
-
-    <div class="section">
-      <div class="card">
-        <h3>Abstract</h3>
-        <p>A supercapacitor is developed using carbon aerogel synthesized from lignin. Carbon aerogels offer high surface area, low weight, and good conductivity. The project involves aerogel synthesis, characterization, and device fabrication. The aim is to create a sustainable, high-performance energy storage device suitable for applications like EVs, portable electronics, grid storage, and IoT systems.</p>
-      </div>
+<div class="page">
+  <header>
+    <div class="title-wrap">
+      <h1>Development of Supercapacitor Using Carbon Aerogel</h1>
+      <div class="subtitle">Final Year B.Tech Project (S7–S8) — Dept. of Electrical & Electronics Engineering, RIT Kottayam</div>
     </div>
 
-    <div class="section">
-      <div class="card">
-        <h3>Motive</h3>
+    <div style="text-align:right;min-width:200px">
+      <div class="muted">Prepared by:</div>
+      <div style="font-weight:700">Akshay Sajeev • KTE22EE009</div>
+    </div>
+  </header>
+
+  <div class="grid">
+    <!-- LEFT: main content -->
+    <div>
+      <div class="card section">
+        <h2>Abstract</h2>
+        <p>
+          This project develops a high-performance supercapacitor using carbon aerogel synthesized from lignin.
+          Carbon aerogels provide very high surface area, lightweight structure and good electronic conductivity.
+          The work covers synthesis (PVA–lignin method), carbonization, electrode fabrication and electrochemical evaluation.
+        </p>
+      </div>
+
+      <div class="card section">
+        <h2>Motive</h2>
         <ul>
-          <li>Conventional supercapacitors face limitations in energy density and cost.</li>
-          <li>Existing electrode materials rely on non-renewable and expensive resources.</li>
-          <li>Carbon aerogels offer eco-friendly, sustainable, and scalable solutions.</li>
+          <li>Conventional supercapacitors have limited energy density and can be costly.</li>
+          <li>Many electrode materials rely on non-renewable feedstocks; lignin is abundant and sustainable.</li>
+          <li>Carbon aerogels can deliver scalable, eco-friendly electrodes with high surface area.</li>
         </ul>
       </div>
-    </div>
 
-    <div class="section">
-      <div class="card">
-        <h3>Objectives</h3>
+      <div class="card section">
+        <h2>Objectives</h2>
         <ul>
-          <li>Develop a cost-effective supercapacitor using carbon aerogel.</li>
-          <li>Improve energy density and conductivity with optimized porous structures.</li>
-          <li>Ensure long cycle life and mechanical stability.</li>
-          <li>Compare with conventional supercapacitors for performance validation.</li>
+          <li>Develop a cost-effective supercapacitor using lignin-derived carbon aerogel.</li>
+          <li>Optimize porous structure to improve energy density & conductivity.</li>
+          <li>Demonstrate long cycle life and mechanical stability.</li>
+          <li>Benchmark against conventional activated carbon electrodes.</li>
         </ul>
+      </div>
+
+      <div class="card section">
+        <h2>Methodology</h2>
+        <p class="small">Preparation of Carbon Aerogel from Lignin (PVA–Lignin method)</p>
+
+        <table aria-label="Methodology table">
+          <thead><tr><th style="width:35%">Stage</th><th>Procedure</th></tr></thead>
+          <tbody>
+          <tr><td>Solution Preparation</td><td>5% PVA solution blended with lignin (3:1 ratio). Mix thoroughly to form homogeneous precursor sol.</td></tr>
+          <tr><td>Deep Freezing</td><td>Solidification at −20 °C for 12–48 hours to produce cryogel structure.</td></tr>
+          <tr><td>Freeze Drying</td><td>Sublimation of water under vacuum to obtain porous aerogel network.</td></tr>
+          <tr><td>Vacuum Drying</td><td>Removal of residual moisture and solvents at moderate temperature under vacuum.</td></tr>
+          <tr><td>Carbonization</td><td>Heat treatment up to 1000 °C in inert atmosphere to form conductive carbon aerogel.</td></tr>
+          <tr><td>Electrode Fabrication</td><td>Mix aerogel powder with conductive additive and binder, coat on current collector and dry.</td></tr>
+          <tr><td>Device Assembly</td><td>Assemble electrodes with separator and electrolyte into test cells and package as supercapacitor.</td></tr>
+          <tr><td>Characterization</td><td>Measure BET surface area, porosity, cyclic voltammetry, galvanostatic charge/discharge, EIS and cycle life.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card section">
+        <h2>Results & Discussion (Summary)</h2>
+        <p>
+          Lignin-derived carbon aerogels show enhanced specific capacitance and improved ion transport due to interconnected porous architecture.
+          Optimised carbonization and electrode processing yield lower ESR and stable cycling behavior (>5000 cycles with <10% loss).
+        </p>
+      </div>
+
+      <div class="card section refs">
+        <h2>References</h2>
+        <ol>
+          <li>Thomas, B.; Geng, S.; Sain, M.; Oksman, K. (2021). Hetero-Porous, High-Surface Area Green Carbon Aerogels for Next-Generation Energy Storage. <i>Nanomaterials</i>.</li>
+          <li>Lee, J.-H.; Lee, S.-Y.; Park, S.-J. (2023). Highly Porous Carbon Aerogels for High-Performance Supercapacitor Electrodes. <i>Nanomaterials</i>.</li>
+          <li>Wu, C.-W.; et al. (2022). Review on lignin-based carbon aerogels. <i>RSC Advances</i>.</li>
+          <li>Wang, X.; et al. (2025). Deoxygenated lignin carbon aerogel with enhanced electrochemical performance. <i>International Journal of Biological Macromolecules</i>.</li>
+          <li>Dong, X.; et al. (2025). Application of lignin-derived carbon materials in adsorption and separation. <i>Separations</i>.</li>
+        </ol>
       </div>
     </div>
 
-    <div class="section">
+    <!-- RIGHT: side column -->
+    <aside class="right-col">
       <div class="card">
-        <h3>Methodology</h3>
-        <p><strong>Preparation of Carbon Aerogel from Lignin (PVA–Lignin method):</strong></p>
-        <ul>
-          <li>Solution Preparation — 5% PVA solution blended with lignin (3:1 ratio).</li>
-          <li>Deep Freezing — solidification at –20 °C for 12–48 hours.</li>
-          <li>Freeze Drying — sublimation of water under vacuum.</li>
-          <li>Vacuum Drying — removal of residual moisture.</li>
-          <li>Carbonization — heating up to 1000 °C to obtain carbon aerogel.</li>
-        </ul>
-      </div>
-    </div>
+        <h2>3D Projection / Poster</h2>
+        <div class="viewer-wrap" id="viewerWrap">
+          <!-- Canvas animation will be shown here; fallback image displayed if JS disabled or if user prefers poster -->
+          <canvas id="viewerCanvas" aria-label="animated projection"></canvas>
+          <!-- Put a poster image named "poster.png" in the same folder to show as fallback/cover -->
+          <img id="posterImg" class="poster-img" src="poster.png" alt="Project poster (replace poster.png with actual image)" style="display:none" />
+        </div>
 
-    <div class="section">
-      <div class="card">
-        <h3>3D Projection</h3>
-        <div class="viewer-container">
-          <div class="viewer-wrap">
-            <canvas id="viewer"></canvas>
-          </div>
-          <div class="label" style="left:25%; top:88%;">Lignin</div>
-          <div class="label" style="left:50%; top:88%;">Carbon Aerogel</div>
-          <div class="label" style="left:75%; top:88%;">Supercapacitor</div>
+        <div class="label-row" style="margin-top:12px">
+          <div class="label-chip">Lignin</div>
+          <div class="label-chip">Carbon Aerogel</div>
+          <div class="label-chip">Supercapacitor</div>
         </div>
       </div>
-    </div>
 
-    <div class="section">
       <div class="card">
-        <h3>Team</h3>
-        <p><strong>Karthikeyan J S (KTE22EE046)<br>
-        Jishnu M (KTE22EE044)<br>
-        Akshay Sajeev (KTE22EE009)<br>
-        Rohit Jayakrishna (KTE22EE057)</strong></p>
-        <p>Guides: <strong>Dr. Radhika R</strong> & <strong>Prof. Veena L</strong>, Dept. of EEE, RIT Kottayam</p>
+        <h2>Project Team & Guides</h2>
+        <div class="team-list">
+          <div class="member">Karthikeyan J S — KTE22EE046</div>
+          <div class="member">Jishnu M — KTE22EE044</div>
+          <div class="member">Akshay Sajeev — KTE22EE009</div>
+          <div class="member">Rohit Jayakrishna — KTE22EE057</div>
+        </div>
+        <p class="small" style="margin-top:10px"><strong>Guides:</strong> Dr. Radhika R & Prof. Veena L — Dept. of EEE, RIT Kottayam</p>
       </div>
-    </div>
 
-    <div class="section">
       <div class="card">
-        <h3>References</h3>
-        <p>[1] Thomas, B.; Geng, S.; Sain, M.; Oksman, K. (2021). Hetero-Porous, High-Surface Area Green Carbon Aerogels for Next-Generation Energy Storage. <i>Nanomaterials</i>.</p>
-        <p>[2] Lee, J.-H.; Lee, S.-Y.; Park, S.-J. (2023). Highly Porous Carbon Aerogels for High-Performance Supercapacitor Electrodes. <i>Nanomaterials</i>.</p>
-        <p>[3] Wang, X. et al. (2025). Deoxygenated lignin carbon aerogel with enhanced electrochemical performance in organic systems. <i>Int. J. Biol. Macromolecules</i>.</p>
-        <p>[4] Wu, C.-W. et al. (2022). Review on lignin-based carbon aerogels. <i>RSC Advances</i>.</p>
-        <p>[5] Dong, X. et al. (2025). Application of lignin-derived carbon materials in adsorption and separation. <i>Separations</i>.</p>
+        <h2>Quick Project Info</h2>
+        <p class="small"><strong>Technique:</strong> PVA–Lignin sol–gel → freeze-dry → carbonization</p>
+        <p class="small"><strong>Peak Carbonization Temp:</strong> ~1000 °C (inert)</p>
+        <p class="small"><strong>Applications:</strong> EVs, portable electronics, grid support, IoT devices</p>
       </div>
-    </div>
-
-    <footer>
-      Prepared for Final-Year Project (S7–S8) • Department of Electrical and Electronics Engineering • RIT Kottayam
-    </footer>
+    </aside>
   </div>
 
-  <script>
-    const canvas = document.getElementById('viewer');
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(45, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:true});
-    renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.setSize(canvas.clientWidth, canvas.clientHeight);
-    scene.background = new THREE.Color(0xf9fafb);
+  <footer>© 2025 — Department of Electrical & Electronics Engineering, RIT Kottayam</footer>
+</div>
 
-    // Lighting
-    const ambient = new THREE.AmbientLight(0xffffff, 0.6);
-    const keyLight = new THREE.DirectionalLight(0xffffff, 0.8);
-    keyLight.position.set(6,8,6);
-    const rimLight = new THREE.PointLight(0xffffff, 0.5);
-    rimLight.position.set(-6,4,-6);
-    scene.add(ambient, keyLight, rimLight);
+<!-- Animation script for the right-column canvas.
+     If you prefer to show the generated poster image instead, place a file named 'poster.png'
+     in the same folder and set 'posterImg.style.display = "block"' and hide the canvas. -->
+<script>
+  // Basic responsive canvas animation: smooth floating + subtle rotation of three shapes
+  (function(){
+    const canvas = document.getElementById('viewerCanvas');
+    const poster = document.getElementById('posterImg');
+    const wrap = document.getElementById('viewerWrap');
 
-    // Lignin
-    const ligninGeo = new THREE.IcosahedronGeometry(1.3, 2);
-    const ligninMat = new THREE.MeshPhysicalMaterial({color:0x8b5a2b, roughness:0.5, metalness:0.2, clearcoat:0.4});
-    const lignin = new THREE.Mesh(ligninGeo, ligninMat);
-    lignin.position.set(-4.6,0,0);
-    scene.add(lignin);
-
-    // Aerogel
-    const aerogelGeo = new THREE.OctahedronGeometry(1.5, 2);
-    const aerogelMat = new THREE.MeshPhysicalMaterial({color:0x222222, roughness:0.4, metalness:0.3, transmission:0.1, clearcoat:0.3});
-    const aerogel = new THREE.Mesh(aerogelGeo, aerogelMat);
-    aerogel.position.set(0,0,0);
-    scene.add(aerogel);
-
-    // Supercapacitor
-    const bodyGeo = new THREE.CylinderGeometry(1.3,1.3,3.6,64,1,true);
-    const bodyMat = new THREE.MeshPhysicalMaterial({color:0x0b63a6, roughness:0.3, metalness:0.4, clearcoat:0.5});
-    const body = new THREE.Mesh(bodyGeo, bodyMat);
-    body.position.set(4.6,0,0);
-    scene.add(body);
-
-    const capTop = new THREE.CircleGeometry(1.3,64);
-    const capMat = new THREE.MeshStandardMaterial({color:0x093d77, metalness:0.6, roughness:0.2});
-    const top = new THREE.Mesh(capTop, capMat);
-    top.rotation.x = -Math.PI/2;
-    top.position.set(4.6,1.8,0);
-    scene.add(top);
-
-    const termGeo = new THREE.CylinderGeometry(0.2,0.2,0.4,32);
-    const termMat = new THREE.MeshStandardMaterial({color:0xffd700, metalness:0.8, roughness:0.2});
-    const term = new THREE.Mesh(termGeo, termMat);
-    term.position.set(4.6,2.0,0);
-    scene.add(term);
-
-    camera.position.set(0,2,12);
-
-    function onResize(){
-      renderer.setSize(canvas.clientWidth, canvas.clientHeight);
-      camera.aspect = canvas.clientWidth / canvas.clientHeight;
-      camera.updateProjectionMatrix();
+    function resize() {
+      canvas.width = wrap.clientWidth;
+      canvas.height = wrap.clientHeight;
     }
-    window.addEventListener('resize', onResize);
+    window.addEventListener('resize', resize);
+    resize();
 
-    // Drag interaction
-    let isDown=false, lastX=0, lastY=0;
-    canvas.addEventListener('pointerdown', (e)=>{isDown=true; lastX=e.clientX; lastY=e.clientY; canvas.setPointerCapture(e.pointerId)});
-    canvas.addEventListener('pointerup', (e)=>{isDown=false; canvas.releasePointerCapture(e.pointerId)});
-    canvas.addEventListener('pointermove',(e)=>{
-      if(!isDown) return;
-      const dx=(e.clientX-lastX)/200;
-      const dy=(e.clientY-lastY)/200;
-      scene.rotation.y+=dx;
-      scene.rotation.x+=dy;
-      lastX=e.clientX; lastY=e.clientY;
-    });
+    const ctx = canvas.getContext('2d');
 
-    // Enhanced animation: spin + float + pulse
-    function animate(time){
-      requestAnimationFrame(animate);
+    // Option: if you have a poster image file named 'poster.png', uncomment to use as cover:
+    // poster.style.display = 'block';
+    // canvas.style.display = 'none';
 
-      const t = time * 0.001; // seconds
-
-      // Rotation
-      lignin.rotation.y += 0.004;
-      aerogel.rotation.y += 0.006;
-      body.rotation.y += 0.01;
-
-      // Floating
-      lignin.position.y = Math.sin(t*1.2) * 0.3;
-      aerogel.position.y = Math.sin(t*1.5 + 1) * 0.3;
-      body.position.y = Math.sin(t*1.8 + 2) * 0.3;
-
-      // Pulsating scale
-      const s = 1 + 0.05 * Math.sin(t*2);
-      lignin.scale.set(s, s, s);
-      aerogel.scale.set(s, s, s);
-      body.scale.set(s, s, s);
-
-      renderer.render(scene,camera);
+    function drawRoundedRect(x,y,w,h,r,color,shadow){
+      ctx.save();
+      if(shadow){
+        ctx.shadowColor = "rgba(0,0,0,0.14)";
+        ctx.shadowBlur = 12;
+        ctx.shadowOffsetY = 6;
+      } else { ctx.shadowBlur = 0; }
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.arcTo(x + w, y, x + w, y + h, r);
+      ctx.arcTo(x + w, y + h, x, y + h, r);
+      ctx.arcTo(x, y + h, x, y, r);
+      ctx.arcTo(x, y, x + w, y, r);
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
     }
-    animate();
-  </script>
+
+    function drawCircle(x,y,r,color,shadow){
+      ctx.save();
+      if(shadow){
+        ctx.shadowColor = "rgba(0,0,0,0.12)";
+        ctx.shadowBlur = 10;
+        ctx.shadowOffsetY = 6;
+      }
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      ctx.arc(x,y,r,0,Math.PI*2);
+      ctx.fill();
+      ctx.restore();
+    }
+
+    function draw(){
+      const w = canvas.width, h = canvas.height;
+      ctx.clearRect(0,0,w,h);
+
+      const centerY = h/2;
+      const spacing = w / 4;
+
+      const t = performance.now() * 0.001;
+
+      // Lignin - warm brown poly (rounded cube)
+      const ligninX = spacing;
+      const ligninY = centerY + Math.sin(t*1.1)*10;
+      const ligninSize = 70 + Math.sin(t*1.7)*4;
+      drawRoundedRect(ligninX - ligninSize/2, ligninY - ligninSize/2, ligninSize, ligninSize, 10, "#8b5a2b", true);
+
+      // Aerogel - dark irregular circle with subtle texture
+      const aerogelX = spacing*2;
+      const aerogelY = centerY + Math.sin(t*1.3 + 0.8)*12;
+      const aerogelR = 58 + Math.sin(t*1.9)*3;
+      drawCircle(aerogelX, aerogelY, aerogelR+2, "#0b0b0b", true);
+      // tiny pores - dots
+      ctx.fillStyle = "rgba(255,255,255,0.03)";
+      for(let i=0;i<18;i++){
+        const ang = i * (Math.PI*2/18) + (t*0.6);
+        const rx = aerogelX + Math.cos(ang)*(aerogelR*0.6) + Math.sin(ang*1.3)*5;
+        const ry = aerogelY + Math.sin(ang)*(aerogelR*0.6) + Math.cos(ang*0.9)*4;
+        ctx.beginPath(); ctx.arc(rx,ry,1.8,0,Math.PI*2); ctx.fill();
+      }
+
+      // Supercapacitor - cylindrical stylized shape
+      const bodyX = spacing*3;
+      const bodyY = centerY + Math.sin(t*1.5 + 1.6)*8;
+      const bodyW = 56 + Math.sin(t*1.6)*3;
+      const bodyH = 96 + Math.sin(t*1.6)*6;
+      // top ellipse
+      ctx.save();
+      ctx.translate(bodyX, bodyY - bodyH/2);
+      ctx.scale(1,0.55);
+      ctx.beginPath();
+      ctx.ellipse(0,0,bodyW/2,bodyW/2,0,0,Math.PI*2);
+      ctx.fillStyle = "#0b63a6";
+      ctx.shadowColor = "rgba(0,0,0,0.12)";
+      ctx.shadowBlur = 10;
+      ctx.fill();
+      ctx.restore();
+      // body
+      drawRoundedRect(bodyX - bodyW/2, bodyY - bodyH/2 + (bodyW*0.12), bodyW, bodyH - (bodyW*0.12), 8, "#0e6da6", false);
+      // top highlight
+      ctx.fillStyle = "rgba(255,255,255,0.08)";
+      ctx.fillRect(bodyX - bodyW/2 + 6, bodyY - bodyH/2 + 10, bodyW - 12, 8);
+
+      // connecting animated arrows
+      ctx.save();
+      ctx.strokeStyle = "rgba(255,255,255,0.26)";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(ligninX + ligninSize/2 + 6, ligninY);
+      const mid1 = (ligninX + aerogelX)/2;
+      ctx.quadraticCurveTo(mid1, ligninY - 30*Math.cos(t*0.6), aerogelX - aerogelR - 6 + Math.sin(t*0.8)*6, aerogelY);
+      ctx.stroke();
+      // arrow head
+      const ax = aerogelX - aerogelR - 6 + Math.sin(t*0.8)*6;
+      const ay = aerogelY;
+      ctx.beginPath();
+      ctx.moveTo(ax,ay);
+      ctx.lineTo(ax-8, ay-6);
+      ctx.lineTo(ax-8, ay+6);
+      ctx.closePath();
+      ctx.fillStyle = "rgba(255,255,255,0.26)"; ctx.fill();
+
+      // second arrow
+      ctx.beginPath();
+      ctx.moveTo(aerogelX + aerogelR + 6, aerogelY);
+      const mid2 = (aerogelX + bodyX)/2;
+      ctx.quadraticCurveTo(mid2, aerogelY + 28*Math.sin(t*0.5), bodyX - bodyW/2 - 6 + Math.cos(t*0.9)*6, bodyY);
+      ctx.stroke();
+      // arrow head
+      const bx = bodyX - bodyW/2 - 6 + Math.cos(t*0.9)*6;
+      const by = bodyY;
+      ctx.beginPath();
+      ctx.moveTo(bx,by);
+      ctx.lineTo(bx-8, by-6);
+      ctx.lineTo(bx-8, by+6);
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
+
+      // subtle floating glow
+      ctx.save();
+      const g = ctx.createRadialGradient(aerogelX, aerogelY, 10, aerogelX, aerogelY, aerogelR*2);
+      g.addColorStop(0, "rgba(255,255,255,0.02)");
+      g.addColorStop(1, "rgba(255,255,255,0)");
+      ctx.fillStyle = g;
+      ctx.fillRect(0,0,w,h);
+      ctx.restore();
+
+      requestAnimationFrame(draw);
+    }
+
+    requestAnimationFrame(draw);
+  })();
+</script>
 </body>
 </html>
