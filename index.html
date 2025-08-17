@@ -190,6 +190,31 @@
       lastX=e.clientX; lastY=e.clientY;
     });
 
+    // Enhanced animation: spin + float + pulse
+    function animate(time){
+      requestAnimationFrame(animate);
+
+      const t = time * 0.001; // seconds
+
+      // Rotation
+      lignin.rotation.y += 0.004;
+      aerogel.rotation.y += 0.006;
+      body.rotation.y += 0.01;
+
+      // Floating
+      lignin.position.y = Math.sin(t*1.2) * 0.3;
+      aerogel.position.y = Math.sin(t*1.5 + 1) * 0.3;
+      body.position.y = Math.sin(t*1.8 + 2) * 0.3;
+
+      // Pulsating scale
+      const s = 1 + 0.05 * Math.sin(t*2);
+      lignin.scale.set(s, s, s);
+      aerogel.scale.set(s, s, s);
+      body.scale.set(s, s, s);
+
+      renderer.render(scene,camera);
+    }
+    animate();
   </script>
 </body>
 </html>
